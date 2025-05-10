@@ -22,7 +22,7 @@ def main():
             waypoints.append(tuple(p))
             last = p
 
-    data = {'waypoints': [{'x': float(x), 'y': float(y)} for x, y in waypoints]}
+    data = {'waypoints': [{'x': float(x)/8, 'y': float(y)/8} for x, y in waypoints]}
     pathlib.Path('../config').mkdir(parents=True, exist_ok=True)
     with open(OUT_YAML, 'w') as f: yaml.safe_dump(data, f)
     print(f'Generados {len(waypoints)} way-points → {OUT_YAML}')
