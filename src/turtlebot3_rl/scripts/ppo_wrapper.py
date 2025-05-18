@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Gym/SB3 wrapper para TurtleBot3:
-– obs: 24 rayos LiDAR + dist. y heading al waypoint
-– act:  v≥0, ω  (Box[0,1]×[-1,1])
-– reward: progreso + bonus WP + centrado – proximidad
-– truncate: 5 min o 20 s sin avanzar.  NO se reinicia por lidar.
-— Imprime cada segundo posición actual y waypoint destino.
+Gym/SB3 wrapper para TurtleBot3 con “gates” perpendiculares:
+
+– obs: 24 rayos LiDAR + dist. ortogonal y heading al gate
+– act:  v≥0, ω  (Box[0,1] × [-1,1])
+– reward: progreso + bonus Gate + rapidez + centrado – proximidad
+– truncate: 5 min o 20 s sin avanzar.
 """
 
 import os, math, yaml, rospy, numpy as np
@@ -15,12 +15,13 @@ from sensor_msgs.msg   import LaserScan
 from nav_msgs.msg      import Odometry
 
 # ---------- Constantes ----------
-V_MAX, OMEGA_MAX = 0.22, 2.84
-RAYS_USED, LASER_MAX = 24, 3.5
-PROX_TH, COLL_TH = 0.30, 0.12
-STAGN_T, TIMEOUT_T = 20.0, 300.0       # s sin mover / s máx. episodio
-MOVE_EPS = 0.02                        # m considerados avance
-PRINT_DT = 1.0                         # s entre mensajes de debug
+V_MAX, OMEGA_MAX   = 0.22, 2.84
+RAYS_USED          = 24
+LASER_MAX          = 3.5
+PROX_TH, COLL_TH   = 0.30, 0.12
+STAGN_T, TIMEOUT_T = 20.0, 840.0     # s sin mover / s máx. episodio
+MOVE_EPS           = 0.02            # m considerados avance
+PRINT_DT           = 1.0             # s entre mensajes de debug
 
 class PathTrackingWrapper(Env):
     def __init__(self):
@@ -32,11 +33,14 @@ class PathTrackingWrapper(Env):
         rospy.Subscriber('/scan', LaserScan, self.scan_cb,  queue_size=1)
         rospy.Subscriber('/odom', Odometry,  self.odom_cb, queue_size=1)
 
-        # Way-points
+        # Leer gates del YAML
         pkg_dir = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(pkg_dir, '../config/waypoints.yaml')) as f:
-            self.wps = [(w['x'], w['y']) for w in yaml.safe_load(f)['waypoints']]
-        self.reset_waypoints()
+            data = yaml.safe_load(f)['waypoints']
+            self.gates = [(
+                np.array([w['x'],  w['y']], dtype=np.float32),
+                np.array([w['nx'], w['ny']], dtype=np.float32)
+            ) for w in data]
 
         # Espacios Gym
         self.observation_space = spaces.Box(
@@ -48,7 +52,12 @@ class PathTrackingWrapper(Env):
 
         self.rate = rospy.Rate(10)   # 10 Hz
         self.scan_ready = self.odom_ready = False
+
+        # Esperar a que lleguen LiDAR y odometría
         self.wait_sensors()
+
+        # Inicializar puerta actual
+        self.reset_gates()
 
         # ---- depuración ----
         self._last_print_t = rospy.Time.now()
@@ -73,14 +82,16 @@ class PathTrackingWrapper(Env):
         while not (self.scan_ready and self.odom_ready) and not rospy.is_shutdown():
             rospy.sleep(0.02)
 
-    def reset_waypoints(self):
-        self.wp_idx  = 0
-        self.next_wp = np.array(self.wps[0], dtype=np.float32)
+    def reset_gates(self):
+        self.gate_idx  = 0
+        self.gate_p, self.gate_n = self.gates[0]
+        self.prev_signed_dist    = np.dot(self.pos - self.gate_p, self.gate_n)
+        self.steps_since_gate    = 0
 
     def _get_obs(self):
         scan_n = self.scan / LASER_MAX
-        vec    = self.next_wp - self.pos
-        dist   = np.linalg.norm(vec)
+        dist   = abs(np.dot(self.pos - self.gate_p, self.gate_n))          # ortogonal
+        vec    = self.gate_p - self.pos
         head   = (math.atan2(vec[1], vec[0]) - self.yaw + math.pi)%(2*math.pi)-math.pi
         return np.concatenate([scan_n, [dist, head]]).astype(np.float32)
 
@@ -88,70 +99,81 @@ class PathTrackingWrapper(Env):
     def reset(self, *, seed=None, options=None):
         os.system('rosservice call /gazebo/reset_simulation "{}"')
         self.wait_sensors()
-        self.reset_waypoints()
+        self.reset_gates()
 
         self.prev_pos       = self.pos.copy()
         self.last_move_time = rospy.Time.now()
         self.start_time     = rospy.Time.now()
-        self.prev_dist      = np.linalg.norm(self.next_wp - self.pos)
+        self.prev_dist      = abs(np.dot(self.pos - self.gate_p, self.gate_n))
         self._last_print_t  = rospy.Time.now()
         self.steps          = 0
         return self._get_obs(), {}
 
     def step(self, action):
         # ---- actuar ----
-        v = float(action[0])*V_MAX
-        w = float(action[1])*OMEGA_MAX
-        msg = Twist(); msg.linear.x=v; msg.angular.z=w; self.cmd_pub.publish(msg)
+        v = float(action[0]) * V_MAX
+        w = float(action[1]) * OMEGA_MAX
+        msg = Twist()
+        msg.linear.x  = v
+        msg.angular.z = w
+        self.cmd_pub.publish(msg)
         self.rate.sleep()
 
         self.steps += 1
+        self.steps_since_gate += 1
+
         obs   = self._get_obs()
         dist  = obs[-2]
         min_r = float(self.scan.min())
 
-        # ---- progreso ----
+        # ---- progreso ortogonal ----
         progress    = self.prev_dist - dist
-        r_progress  = 1.0*progress
+        r_progress  = 1.0 * progress
         self.prev_dist = dist
 
-        # waypoint alcanzado
-        r_wp = 0.0
-        if dist < 0.15 and self.wp_idx < len(self.wps)-1:
-            self.wp_idx += 1
-            self.next_wp = np.array(self.wps[self.wp_idx], dtype=np.float32)
-            r_wp = +5.0
+        # ---- gate cruzado ----
+        signed_dist = np.dot(self.pos - self.gate_p, self.gate_n)
+        r_gate = 0.0
+        if self.prev_signed_dist > 0.0 and signed_dist <= 0.0:
+            r_gate  = 5.0                                   # bonus base
+            r_gate += 1.0 / (1.0 + 0.1 * self.steps_since_gate)  # rapidez
+            if self.gate_idx < len(self.gates) - 1:
+                self.gate_idx += 1
+                self.gate_p, self.gate_n = self.gates[self.gate_idx]
+            self.steps_since_gate = 0
+            self.prev_dist        = abs(np.dot(self.pos - self.gate_p, self.gate_n))
+        self.prev_signed_dist = signed_dist
 
-        # centrado
+        # ---- centrado LiDAR ----
         l, r = self.scan[:RAYS_USED//2].mean(), self.scan[RAYS_USED//2:].mean()
-        r_center = 0.2*(1-abs(l-r)/LASER_MAX)
+        r_center = 0.2 * (1 - abs(l - r) / LASER_MAX)
 
-        # proximidad
+        # ---- proximidad a obstáculos ----
         r_prox = 0.0
         if min_r < PROX_TH:
-            r_prox = -2.0*(PROX_TH-min_r)/PROX_TH
+            r_prox = -2.0 * (PROX_TH - min_r) / PROX_TH
         if min_r < COLL_TH:
             r_prox += -5.0
 
-        reward = r_progress + r_wp + r_center + r_prox
+        reward = r_progress + r_gate + r_center + r_prox
 
-        # ---- estancamiento ----
+        # ---- estancamiento / timeout ----
         moved = np.linalg.norm(self.pos - self.prev_pos) > MOVE_EPS
         if moved:
             self.last_move_time = rospy.Time.now()
         self.prev_pos = self.pos.copy()
 
-        stagnant = (rospy.Time.now()-self.last_move_time).to_sec() > STAGN_T
-        timeout  = (rospy.Time.now()-self.start_time)   .to_sec() > TIMEOUT_T
+        stagnant = (rospy.Time.now() - self.last_move_time).to_sec() > STAGN_T
+        timeout  = (rospy.Time.now() - self.start_time)   .to_sec() > TIMEOUT_T
         done = stagnant or timeout
-        info = {'wp_index': self.wp_idx, 'dist_wp': dist,
+        info = {'gate_index': self.gate_idx, 'dist_gate': dist,
                 'stagnant': stagnant, 'timeout': timeout}
 
-        # ---- DEBUG print cada segundo ----
-        if (rospy.Time.now()-self._last_print_t).to_sec() >= PRINT_DT:
-            pos_str = f"Robot ({self.pos[0]:+5.2f},{self.pos[1]:+5.2f})"
-            wp_str  = f"WP#{self.wp_idx} ({self.next_wp[0]:+5.2f},{self.next_wp[1]:+5.2f})"
-            print(f"[DEBUG] {pos_str}  →  {wp_str}  dist={dist:4.2f} m")
+        # ---- DEBUG cada segundo ----
+        if (rospy.Time.now() - self._last_print_t).to_sec() >= PRINT_DT:
+            pos_str  = f"Robot ({self.pos[0]:+5.2f},{self.pos[1]:+5.2f})"
+            gate_str = f"GATE#{self.gate_idx} ({self.gate_p[0]:+5.2f},{self.gate_p[1]:+5.2f})"
+            print(f"[DEBUG] {pos_str}  →  {gate_str}  dist={dist:4.2f} m")
             self._last_print_t = rospy.Time.now()
 
         return obs, reward, done, False, info
