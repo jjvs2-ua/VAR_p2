@@ -27,7 +27,7 @@ def main():
     # Ruta al modelo preentrenado
     pkg_dir   = os.path.dirname(os.path.abspath(__file__))
     pretrained_path = os.path.join(pkg_dir, 'models',
-                                   'ppo_400000_steps_primerEntrenamiento.zip')
+                                   'ppo_600000_steps.zip')
 
     if os.path.isfile(pretrained_path):
         rospy.loginfo(f"Cargando modelo preentrenado desde {pretrained_path}")
