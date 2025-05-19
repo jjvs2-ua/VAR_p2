@@ -267,14 +267,17 @@ struct Printer< ::turtlebot3_example::Turtlebot3ActionFeedback_<ContainerAllocat
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::turtlebot3_example::Turtlebot3ActionFeedback_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "status: ";
-    s << std::endl;
     Printer< ::actionlib_msgs::GoalStatus_<ContainerAllocator> >::stream(s, indent + "  ", v.status);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "feedback: ";
-    s << std::endl;
     Printer< ::turtlebot3_example::Turtlebot3Feedback_<ContainerAllocator> >::stream(s, indent + "  ", v.feedback);
   }
 };

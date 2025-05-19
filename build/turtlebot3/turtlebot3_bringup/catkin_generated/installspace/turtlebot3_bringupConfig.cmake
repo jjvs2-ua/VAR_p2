@@ -67,14 +67,14 @@ set(turtlebot3_bringup_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(turtlebot3_bringup_SOURCE_PREFIX /home/jose/Escritorio/VAR/p2/src/turtlebot3/turtlebot3_bringup)
-  set(turtlebot3_bringup_DEVEL_PREFIX /home/jose/Escritorio/VAR/p2/devel)
+  set(turtlebot3_bringup_SOURCE_PREFIX /workspace/catkin_ws/src/turtlebot3/turtlebot3_bringup)
+  set(turtlebot3_bringup_DEVEL_PREFIX /workspace/catkin_ws/devel)
   set(turtlebot3_bringup_INSTALL_PREFIX "")
   set(turtlebot3_bringup_PREFIX ${turtlebot3_bringup_DEVEL_PREFIX})
 else()
   set(turtlebot3_bringup_SOURCE_PREFIX "")
   set(turtlebot3_bringup_DEVEL_PREFIX "")
-  set(turtlebot3_bringup_INSTALL_PREFIX /home/jose/Escritorio/VAR/p2/install)
+  set(turtlebot3_bringup_INSTALL_PREFIX /workspace/catkin_ws/install)
   set(turtlebot3_bringup_PREFIX ${turtlebot3_bringup_INSTALL_PREFIX})
 endif()
 
@@ -118,7 +118,7 @@ endif()
 
 set(libraries "")
 foreach(library ${libraries})
-  # keep build configuration keywords, target names and absolute libraries as-is
+  # keep build configuration keywords, generator expressions, target names, and absolute libraries as-is
   if("${library}" MATCHES "^(debug|optimized|general)$")
     list(APPEND turtlebot3_bringup_LIBRARIES ${library})
   elseif(${library} MATCHES "^-l")
@@ -146,6 +146,8 @@ foreach(library ${libraries})
       target_link_options("${interface_target_name}" INTERFACE "${library}")
     endif()
     list(APPEND turtlebot3_bringup_LIBRARIES "${interface_target_name}")
+  elseif(${library} MATCHES "^\\$<")
+    list(APPEND turtlebot3_bringup_LIBRARIES ${library})
   elseif(TARGET ${library})
     list(APPEND turtlebot3_bringup_LIBRARIES ${library})
   elseif(IS_ABSOLUTE ${library})
@@ -154,7 +156,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/jose/Escritorio/VAR/p2/install/lib;/home/jose/Escritorio/VAR/p2/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /workspace/catkin_ws/install/lib;/workspace/catkin_ws/devel/lib;/workspace/VAR_p2/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

@@ -2,7 +2,7 @@
 DEVELSPACE = True
 INSTALLSPACE = False
 
-CATKIN_DEVEL_PREFIX = '/home/jose/Escritorio/VAR/p2/devel'
+CATKIN_DEVEL_PREFIX = '/workspace/catkin_ws/devel'
 
 CATKIN_GLOBAL_BIN_DESTINATION = 'bin'
 CATKIN_GLOBAL_ETC_DESTINATION = 'etc'
@@ -20,14 +20,14 @@ CATKIN_PACKAGE_LIBEXEC_DESTINATION = 'lib/turtlebot_gazebo_multiple'
 CATKIN_PACKAGE_PYTHON_DESTINATION = 'lib/python3/dist-packages/turtlebot_gazebo_multiple'
 CATKIN_PACKAGE_SHARE_DESTINATION = 'share/turtlebot_gazebo_multiple'
 
-CMAKE_BINARY_DIR = '/home/jose/Escritorio/VAR/p2/build'
-CMAKE_CURRENT_BINARY_DIR = '/home/jose/Escritorio/VAR/p2/build/turtlebot_gazebo_multiple'
-CMAKE_CURRENT_SOURCE_DIR = '/home/jose/Escritorio/VAR/p2/src/turtlebot_gazebo_multiple'
-CMAKE_INSTALL_PREFIX = '/home/jose/Escritorio/VAR/p2/install'
-CMAKE_SOURCE_DIR = '/home/jose/Escritorio/VAR/p2/src'
+CMAKE_BINARY_DIR = '/workspace/catkin_ws/build'
+CMAKE_CURRENT_BINARY_DIR = '/workspace/catkin_ws/build/turtlebot_gazebo_multiple'
+CMAKE_CURRENT_SOURCE_DIR = '/workspace/catkin_ws/src/turtlebot_gazebo_multiple'
+CMAKE_INSTALL_PREFIX = '/workspace/catkin_ws/install'
+CMAKE_SOURCE_DIR = '/workspace/catkin_ws/src'
 
 PROJECT_NAME = 'turtlebot_gazebo_multiple'
-PROJECT_BINARY_DIR = '/home/jose/Escritorio/VAR/p2/build/turtlebot_gazebo_multiple'
-PROJECT_SOURCE_DIR = '/home/jose/Escritorio/VAR/p2/src/turtlebot_gazebo_multiple'
+PROJECT_BINARY_DIR = '/workspace/catkin_ws/build/turtlebot_gazebo_multiple'
+PROJECT_SOURCE_DIR = '/workspace/catkin_ws/src/turtlebot_gazebo_multiple'
 
 PYTHON_EXECUTABLE = '/usr/bin/python3'

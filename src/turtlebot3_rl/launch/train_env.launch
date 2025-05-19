@@ -1,0 +1,4 @@
+<launch>
+  <!-- Mundo vacío y TurtleBot3 múltiple -->
+  <include file="$(find turtlebot_gazebo_multiple)/launch/create_multi_robot.launch"/>
+</launch>

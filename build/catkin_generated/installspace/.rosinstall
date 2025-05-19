@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/jose/Escritorio/VAR/p2/install/setup.sh
+    local-name: /workspace/catkin_ws/install/setup.sh

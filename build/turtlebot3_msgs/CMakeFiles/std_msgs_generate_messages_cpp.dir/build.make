@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jose/Escritorio/VAR/p2/src
+CMAKE_SOURCE_DIR = /workspace/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jose/Escritorio/VAR/p2/build
+CMAKE_BINARY_DIR = /workspace/catkin_ws/build
 
 # Utility rule file for std_msgs_generate_messages_cpp.
 
@@ -63,10 +63,10 @@ turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/build: std_msgs_ge
 .PHONY : turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 
 turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
-	cd /home/jose/Escritorio/VAR/p2/build/turtlebot3_msgs && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_cpp.dir/cmake_clean.cmake
+	cd /workspace/catkin_ws/build/turtlebot3_msgs && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_cpp.dir/cmake_clean.cmake
 .PHONY : turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 
 turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/depend:
-	cd /home/jose/Escritorio/VAR/p2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jose/Escritorio/VAR/p2/src /home/jose/Escritorio/VAR/p2/src/turtlebot3_msgs /home/jose/Escritorio/VAR/p2/build /home/jose/Escritorio/VAR/p2/build/turtlebot3_msgs /home/jose/Escritorio/VAR/p2/build/turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /workspace/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspace/catkin_ws/src /workspace/catkin_ws/src/turtlebot3_msgs /workspace/catkin_ws/build /workspace/catkin_ws/build/turtlebot3_msgs /workspace/catkin_ws/build/turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : turtlebot3_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/depend
 

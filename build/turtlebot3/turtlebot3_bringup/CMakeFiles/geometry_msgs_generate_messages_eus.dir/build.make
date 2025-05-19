@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jose/Escritorio/VAR/p2/src
+CMAKE_SOURCE_DIR = /workspace/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jose/Escritorio/VAR/p2/build
+CMAKE_BINARY_DIR = /workspace/catkin_ws/build
 
 # Utility rule file for geometry_msgs_generate_messages_eus.
 
@@ -63,10 +63,10 @@ turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir
 .PHONY : turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build
 
 turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean:
-	cd /home/jose/Escritorio/VAR/p2/build/turtlebot3/turtlebot3_bringup && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_eus.dir/cmake_clean.cmake
+	cd /workspace/catkin_ws/build/turtlebot3/turtlebot3_bringup && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_eus.dir/cmake_clean.cmake
 .PHONY : turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean
 
 turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir/depend:
-	cd /home/jose/Escritorio/VAR/p2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jose/Escritorio/VAR/p2/src /home/jose/Escritorio/VAR/p2/src/turtlebot3/turtlebot3_bringup /home/jose/Escritorio/VAR/p2/build /home/jose/Escritorio/VAR/p2/build/turtlebot3/turtlebot3_bringup /home/jose/Escritorio/VAR/p2/build/turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /workspace/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspace/catkin_ws/src /workspace/catkin_ws/src/turtlebot3/turtlebot3_bringup /workspace/catkin_ws/build /workspace/catkin_ws/build/turtlebot3/turtlebot3_bringup /workspace/catkin_ws/build/turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : turtlebot3/turtlebot3_bringup/CMakeFiles/geometry_msgs_generate_messages_eus.dir/depend
 

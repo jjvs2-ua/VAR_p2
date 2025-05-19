@@ -1,4 +1,4 @@
-prefix=/home/jose/Escritorio/VAR/p2/install
+prefix=/workspace/catkin_ws/install
 
 Name: turtlebot3_bringup
 Description: Description of turtlebot3_bringup

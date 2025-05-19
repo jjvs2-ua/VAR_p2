@@ -7,4 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/home/jose/Escritorio/VAR/p2/build'
+export PWD='/workspace/catkin_ws/build'

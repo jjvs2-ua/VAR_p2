@@ -382,27 +382,48 @@ struct Printer< ::turtlebot3_msgs::SensorState_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::turtlebot3_msgs::SensorState_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "bumper: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.bumper);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "cliff: ";
     Printer<float>::stream(s, indent + "  ", v.cliff);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "sonar: ";
     Printer<float>::stream(s, indent + "  ", v.sonar);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "illumination: ";
     Printer<float>::stream(s, indent + "  ", v.illumination);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "led: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.led);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "button: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.button);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "torque: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.torque);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "left_encoder: ";
     Printer<int32_t>::stream(s, indent + "  ", v.left_encoder);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "right_encoder: ";
     Printer<int32_t>::stream(s, indent + "  ", v.right_encoder);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "battery: ";
     Printer<float>::stream(s, indent + "  ", v.battery);
   }

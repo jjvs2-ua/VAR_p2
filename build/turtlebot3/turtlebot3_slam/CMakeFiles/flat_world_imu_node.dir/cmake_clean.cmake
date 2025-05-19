@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/jose/Escritorio/VAR/p2/devel/lib/turtlebot3_slam/flat_world_imu_node"
-  "/home/jose/Escritorio/VAR/p2/devel/lib/turtlebot3_slam/flat_world_imu_node.pdb"
+  "/workspace/catkin_ws/devel/lib/turtlebot3_slam/flat_world_imu_node"
+  "/workspace/catkin_ws/devel/lib/turtlebot3_slam/flat_world_imu_node.pdb"
   "CMakeFiles/flat_world_imu_node.dir/src/flat_world_imu_node.cpp.o"
 )
 

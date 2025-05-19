@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jose/Escritorio/VAR/p2/src/turtlebot3/turtlebot3_bringup/src/turtlebot3_diagnostics.cpp" "/home/jose/Escritorio/VAR/p2/build/turtlebot3/turtlebot3_bringup/CMakeFiles/turtlebot3_diagnostics.dir/src/turtlebot3_diagnostics.cpp.o"
+  "/workspace/catkin_ws/src/turtlebot3/turtlebot3_bringup/src/turtlebot3_diagnostics.cpp" "/workspace/catkin_ws/build/turtlebot3/turtlebot3_bringup/CMakeFiles/turtlebot3_diagnostics.dir/src/turtlebot3_diagnostics.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -17,7 +17,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/jose/Escritorio/VAR/p2/devel/include"
+  "/workspace/catkin_ws/devel/include"
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   )

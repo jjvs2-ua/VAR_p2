@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "/home/jose/Escritorio/VAR/p2/devel/share/common-lisp/ros/turtlebot3_msgs/msg/SensorState.lisp"
-  "/home/jose/Escritorio/VAR/p2/devel/share/common-lisp/ros/turtlebot3_msgs/msg/Sound.lisp"
-  "/home/jose/Escritorio/VAR/p2/devel/share/common-lisp/ros/turtlebot3_msgs/msg/VersionInfo.lisp"
+  "/workspace/catkin_ws/devel/share/common-lisp/ros/turtlebot3_msgs/msg/SensorState.lisp"
+  "/workspace/catkin_ws/devel/share/common-lisp/ros/turtlebot3_msgs/msg/Sound.lisp"
+  "/workspace/catkin_ws/devel/share/common-lisp/ros/turtlebot3_msgs/msg/VersionInfo.lisp"
   "CMakeFiles/turtlebot3_msgs_generate_messages_lisp"
 )
 

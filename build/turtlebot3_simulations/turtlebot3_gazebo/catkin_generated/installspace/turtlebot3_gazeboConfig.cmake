@@ -67,14 +67,14 @@ set(turtlebot3_gazebo_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(turtlebot3_gazebo_SOURCE_PREFIX /home/jose/Escritorio/VAR/p2/src/turtlebot3_simulations/turtlebot3_gazebo)
-  set(turtlebot3_gazebo_DEVEL_PREFIX /home/jose/Escritorio/VAR/p2/devel)
+  set(turtlebot3_gazebo_SOURCE_PREFIX /workspace/catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo)
+  set(turtlebot3_gazebo_DEVEL_PREFIX /workspace/catkin_ws/devel)
   set(turtlebot3_gazebo_INSTALL_PREFIX "")
   set(turtlebot3_gazebo_PREFIX ${turtlebot3_gazebo_DEVEL_PREFIX})
 else()
   set(turtlebot3_gazebo_SOURCE_PREFIX "")
   set(turtlebot3_gazebo_DEVEL_PREFIX "")
-  set(turtlebot3_gazebo_INSTALL_PREFIX /home/jose/Escritorio/VAR/p2/install)
+  set(turtlebot3_gazebo_INSTALL_PREFIX /workspace/catkin_ws/install)
   set(turtlebot3_gazebo_PREFIX ${turtlebot3_gazebo_INSTALL_PREFIX})
 endif()
 
@@ -118,7 +118,7 @@ endif()
 
 set(libraries "BulletSoftBody;BulletDynamics;BulletCollision;LinearMath;/usr/lib/x86_64-linux-gnu/libSimTKcommon.so.3.6;/usr/lib/x86_64-linux-gnu/libSimTKmath.so.3.6;/usr/lib/x86_64-linux-gnu/libSimTKsimbody.so.3.6;/usr/lib/x86_64-linux-gnu/libdart.so.6.9.2;/usr/lib/x86_64-linux-gnu/libgazebo.so;/usr/lib/x86_64-linux-gnu/libgazebo_client.so;/usr/lib/x86_64-linux-gnu/libgazebo_gui.so;/usr/lib/x86_64-linux-gnu/libgazebo_sensors.so;/usr/lib/x86_64-linux-gnu/libgazebo_rendering.so;/usr/lib/x86_64-linux-gnu/libgazebo_physics.so;/usr/lib/x86_64-linux-gnu/libgazebo_ode.so;/usr/lib/x86_64-linux-gnu/libgazebo_transport.so;/usr/lib/x86_64-linux-gnu/libgazebo_msgs.so;/usr/lib/x86_64-linux-gnu/libgazebo_util.so;/usr/lib/x86_64-linux-gnu/libgazebo_common.so;/usr/lib/x86_64-linux-gnu/libgazebo_gimpact.so;/usr/lib/x86_64-linux-gnu/libgazebo_opcode.so;/usr/lib/x86_64-linux-gnu/libgazebo_opende_ou.so;/usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0;/usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0;/usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0;/usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0;/usr/lib/x86_64-linux-gnu/libprotobuf.so;-lpthread;/usr/lib/x86_64-linux-gnu/libsdformat9.so.9.10.1;optimized;/usr/lib/x86_64-linux-gnu/libOgreMain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreMain.so;/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0;/usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0;optimized;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so;optimized;/usr/lib/x86_64-linux-gnu/libOgrePaging.so;debug;/usr/lib/x86_64-linux-gnu/libOgrePaging.so;/usr/lib/x86_64-linux-gnu/libignition-math6.so.6.15.1;/usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.5.0;/usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.11.0;/usr/lib/x86_64-linux-gnu/libignition-common3-graphics.so.3.17.0;/usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.9.1")
 foreach(library ${libraries})
-  # keep build configuration keywords, target names and absolute libraries as-is
+  # keep build configuration keywords, generator expressions, target names, and absolute libraries as-is
   if("${library}" MATCHES "^(debug|optimized|general)$")
     list(APPEND turtlebot3_gazebo_LIBRARIES ${library})
   elseif(${library} MATCHES "^-l")
@@ -146,6 +146,8 @@ foreach(library ${libraries})
       target_link_options("${interface_target_name}" INTERFACE "${library}")
     endif()
     list(APPEND turtlebot3_gazebo_LIBRARIES "${interface_target_name}")
+  elseif(${library} MATCHES "^\\$<")
+    list(APPEND turtlebot3_gazebo_LIBRARIES ${library})
   elseif(TARGET ${library})
     list(APPEND turtlebot3_gazebo_LIBRARIES ${library})
   elseif(IS_ABSOLUTE ${library})
@@ -154,7 +156,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/jose/Escritorio/VAR/p2/install/lib;/home/jose/Escritorio/VAR/p2/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /workspace/catkin_ws/install/lib;/workspace/catkin_ws/devel/lib;/workspace/VAR_p2/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

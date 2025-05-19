@@ -1,38 +1,38 @@
 #!/usr/bin/env python3
 import os, yaml, rospy
 from visualization_msgs.msg import Marker, MarkerArray
-from geometry_msgs.msg      import Point
-from std_msgs.msg           import ColorRGBA
+from geometry_msgs.msg import Point, Vector3
+from std_msgs.msg import ColorRGBA
 
 if __name__ == '__main__':
     rospy.init_node('waypoint_viz')
     pub = rospy.Publisher('waypoints_markers', MarkerArray, queue_size=1, latch=True)
 
-    # Carga los waypoints
+    # Carga los gates
     pkg = os.path.dirname(os.path.abspath(__file__))
     yaml_file = os.path.join(pkg, '../config/waypoints.yaml')
     data = yaml.safe_load(open(yaml_file))['waypoints']
 
     ma = MarkerArray()
-    for i, w in enumerate(data):
-        m = Marker()
-        m.header.frame_id = 'odom'       # ajusta si tu TF base es distinto
-        m.header.stamp    = rospy.Time.now()
-        m.ns              = 'wps'
-        m.id              = i
-        m.type            = Marker.SPHERE
-        m.action          = Marker.ADD
-        m.pose.position.x = w['x']
-        m.pose.position.y = w['y']
-        m.pose.position.z = 0.05        # un poco por encima del suelo
-        m.pose.orientation.w = 1.0
-        m.scale.x = m.scale.y = m.scale.z = 0.1
-        # color: de azul a rojo según índice
-        hue = float(i) / max(1, len(data)-1)
-        m.color = ColorRGBA(hue, 0.8, 1-hue, 0.8)
-        ma.markers.append(m)
+    # Marker para segmentos (LINE_LIST)
+    line_marker = Marker()
+    line_marker.header.frame_id = 'odom'
+    line_marker.header.stamp = rospy.Time.now()
+    line_marker.ns = 'gates'
+    line_marker.id = 0
+    line_marker.type = Marker.LINE_LIST
+    line_marker.action = Marker.ADD
+    # Ancho de las líneas
+    line_marker.scale = Vector3(0.05, 0.0, 0.0)
+    # Color uniforme verde semitransparente
+    line_marker.color = ColorRGBA(0.0, 1.0, 0.0, 0.8)
+    for w in data:
+        p1 = Point(x=w['x1'], y=w['y1'], z=0.0)
+        p2 = Point(x=w['x2'], y=w['y2'], z=0.0)
+        line_marker.points.extend([p1, p2])
+    ma.markers.append(line_marker)
 
-    rospy.sleep(0.5)  # que se conecten los subscribers
+    rospy.sleep(0.5)
     pub.publish(ma)
-    rospy.loginfo(f"Publicado {len(ma.markers)} waypoints en /waypoints_markers")
+    rospy.loginfo(f"Publicado {len(ma.markers)} markers de gates en /waypoints_markers")
     rospy.spin()

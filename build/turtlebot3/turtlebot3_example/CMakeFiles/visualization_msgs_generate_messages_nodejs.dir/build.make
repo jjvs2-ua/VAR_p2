@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jose/Escritorio/VAR/p2/src
+CMAKE_SOURCE_DIR = /workspace/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jose/Escritorio/VAR/p2/build
+CMAKE_BINARY_DIR = /workspace/catkin_ws/build
 
 # Utility rule file for visualization_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_no
 .PHONY : turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/build
 
 turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/jose/Escritorio/VAR/p2/build/turtlebot3/turtlebot3_example && $(CMAKE_COMMAND) -P CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /workspace/catkin_ws/build/turtlebot3/turtlebot3_example && $(CMAKE_COMMAND) -P CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/clean
 
 turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/jose/Escritorio/VAR/p2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jose/Escritorio/VAR/p2/src /home/jose/Escritorio/VAR/p2/src/turtlebot3/turtlebot3_example /home/jose/Escritorio/VAR/p2/build /home/jose/Escritorio/VAR/p2/build/turtlebot3/turtlebot3_example /home/jose/Escritorio/VAR/p2/build/turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /workspace/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspace/catkin_ws/src /workspace/catkin_ws/src/turtlebot3/turtlebot3_example /workspace/catkin_ws/build /workspace/catkin_ws/build/turtlebot3/turtlebot3_example /workspace/catkin_ws/build/turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : turtlebot3/turtlebot3_example/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/depend
 

@@ -8,14 +8,25 @@ project(turtlebot3_rl)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-
   rospy
-  sensor_msgs
   std_msgs
+  geometry_msgs
+  sensor_msgs
+  nav_msgs
+  gazebo_msgs
+  std_srvs
 )
 
-catkin_package()
+catkin_package(
+  CATKIN_DEPENDS
+    rospy
+    std_msgs
+    geometry_msgs
+    sensor_msgs
+    nav_msgs
+    gazebo_msgs
+    std_srvs
+)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
@@ -24,7 +35,13 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/ppo_wrapper.py
   scripts/train_ppo.py
+  scripts/obstacle_spawner.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+install(DIRECTORY
+  launch
+  config
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 ## System dependencies are found with CMake's conventions

@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/jose/Escritorio/VAR/p2/src/turtlebot3_simulations/turtlebot3_gazebo/include/turtlebot3_gazebo/turtlebot3_drive.h
-ros/ros.h
--
-sensor_msgs/LaserScan.h
--
-geometry_msgs/Twist.h
--
-nav_msgs/Odometry.h
--
-
-/home/jose/Escritorio/VAR/p2/src/turtlebot3_simulations/turtlebot3_gazebo/src/turtlebot3_drive.cpp
-turtlebot3_gazebo/turtlebot3_drive.h
-/home/jose/Escritorio/VAR/p2/src/turtlebot3_simulations/turtlebot3_gazebo/src/turtlebot3_gazebo/turtlebot3_drive.h
-
 /opt/ros/noetic/include/geometry_msgs/Point.h
 string
 -
@@ -863,4 +849,18 @@ vector
 -
 time.h
 -
+
+/workspace/catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo/include/turtlebot3_gazebo/turtlebot3_drive.h
+ros/ros.h
+-
+sensor_msgs/LaserScan.h
+-
+geometry_msgs/Twist.h
+-
+nav_msgs/Odometry.h
+-
+
+/workspace/catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo/src/turtlebot3_drive.cpp
+turtlebot3_gazebo/turtlebot3_drive.h
+/workspace/catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo/src/turtlebot3_gazebo/turtlebot3_drive.h
 

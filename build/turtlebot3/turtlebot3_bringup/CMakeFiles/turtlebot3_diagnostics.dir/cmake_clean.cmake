@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/jose/Escritorio/VAR/p2/devel/lib/turtlebot3_bringup/turtlebot3_diagnostics"
-  "/home/jose/Escritorio/VAR/p2/devel/lib/turtlebot3_bringup/turtlebot3_diagnostics.pdb"
+  "/workspace/catkin_ws/devel/lib/turtlebot3_bringup/turtlebot3_diagnostics"
+  "/workspace/catkin_ws/devel/lib/turtlebot3_bringup/turtlebot3_diagnostics.pdb"
   "CMakeFiles/turtlebot3_diagnostics.dir/src/turtlebot3_diagnostics.cpp.o"
 )
 
