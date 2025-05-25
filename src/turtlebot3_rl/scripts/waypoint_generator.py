@@ -1,17 +1,4 @@
 #!/usr/bin/env python3
-"""
-Genera config/waypoints.yaml a partir de route_data.csv
-En lugar de puntos aislados crea “gates”: líneas perpendiculares al eje
-del circuito que el robot puede cruzar en cualquier punto de su anchura.
-
-Cada gate se define por:
-    x1, y1: extremo 1 del segmento
-    x2, y2: extremo 2 del segmento
-    nx, ny: vector normal unitario que señala el lado “aún no cruzado”
-
-Un nuevo gate se coloca cada MIN_DIST metros a lo largo de la trayectoria
-y cada gate tiene LONG_TOTAL metros de longitud total, centrado en ese punto de la ruta.
-"""
 import pandas as pd
 import numpy as np
 import yaml
